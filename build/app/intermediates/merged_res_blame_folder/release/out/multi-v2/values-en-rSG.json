@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.iq.tahady.app-mergeReleaseResources-92:/values-en-rSG/values-en-rSG.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\alaah\\.gradle\\caches\\transforms-3\\037687d6294bce5cf6b833de148b1149\\transformed\\jetified-play-services-wallet-19.2.0\\res\\values-en-rSG\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "206",
+                        "endColumns": "70",
+                        "endOffsets": "276"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "74",
+                        "endOffsets": "125"
+                    }
+                }
+            ]
+        }
+    ]
+}

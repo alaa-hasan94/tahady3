@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.iq.tahady.app-mergeReleaseResources-92:/values-night-v31/values-night-v31.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\alaah\\Documents\\GitHub\\tahady\\android\\app\\src\\main\\res\\values-night-v31\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "175,828",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "470,981"
+                    },
+                    "to": {
+                        "startLines": "2,6",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,235",
+                        "endLines": "5,8",
+                        "endColumns": "12,12",
+                        "endOffsets": "230,386"
+                    }
+                }
+            ]
+        }
+    ]
+}

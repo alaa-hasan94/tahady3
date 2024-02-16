@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.iq.tahady.app-mergeReleaseResources-92:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\alaah\\.gradle\\caches\\transforms-3\\785f082f8dcd9074a5097ab4fa6dfd0c\\transformed\\jetified-payments-core-20.28.3\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "63",
+                        "endOffsets": "114"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\alaah\\.gradle\\caches\\transforms-3\\8b2413e50c3891c99e95d29494f44df3\\transformed\\appcompat-1.6.1\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "119",
+                        "endLines": "7",
+                        "endColumns": "13",
+                        "endOffsets": "391"
+                    }
+                }
+            ]
+        }
+    ]
+}
