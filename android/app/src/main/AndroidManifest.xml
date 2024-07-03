@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:label="Tahady"
+        android:label="منصة التحدي التعليمية"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
@@ -47,7 +47,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="tahady" android:host="tahady.com" />
+                <data android:scheme="tahady" android:host="tahady3.com" />
             </intent-filter>
 
         </activity>
@@ -59,6 +59,6 @@
             android:value="2" />
 
 
-        <meta-data android:name="com.google.android.gms.wallet.api.enabled" android:value="true"/>
+
     </application>
 </manifest>

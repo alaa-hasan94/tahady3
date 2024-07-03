@@ -1,15 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import '/backend/backend.dart';
+
+import '/backend/supabase/supabase.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
-import '/backend/push_notifications/push_notifications_handler.dart'
-    show PushNotificationsHandler;
 import '/index.dart';
 import '/main.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -74,56 +81,28 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? const NavBarPage() : const Auth2Widget(),
+          appStateNotifier.loggedIn ? NavBarPage() : Auth1Widget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? const NavBarPage() : const Auth2Widget(),
-        ),
-        FFRoute(
-          name: 'home',
-          path: '/home',
-          builder: (context, params) =>
-              params.isEmpty ? const NavBarPage(initialPage: 'home') : const HomeWidget(),
-        ),
-        FFRoute(
-          name: 'authorprofile',
-          path: '/authorprofile',
-          builder: (context, params) => AuthorprofileWidget(
-            userRef: params.getParam(
-                'userRef', ParamType.DocumentReference, false, ['users']),
-          ),
+              appStateNotifier.loggedIn ? NavBarPage() : Auth1Widget(),
         ),
         FFRoute(
           name: 'userprofile',
           path: '/userprofile',
           requireAuth: true,
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'userprofile')
-              : const UserprofileWidget(),
+              ? NavBarPage(initialPage: 'userprofile')
+              : UserprofileWidget(),
         ),
         FFRoute(
           name: 'searchcourse',
           path: '/searchcourse',
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'searchcourse')
-              : const SearchcourseWidget(),
-        ),
-        FFRoute(
-          name: 'courseresult',
-          path: '/courseresult',
-          builder: (context, params) => const CourseresultWidget(),
-        ),
-        FFRoute(
-          name: 'cart',
-          path: '/cart',
-          requireAuth: true,
-          builder: (context, params) => CartWidget(
-            courseRef: params.getParam(
-                'courseRef', ParamType.DocumentReference, false, ['courses']),
-          ),
+              ? NavBarPage(initialPage: 'searchcourse')
+              : SearchcourseWidget(),
         ),
         FFRoute(
           name: 'coursedetails',
@@ -132,32 +111,39 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => NavBarPage(
             initialPage: '',
             page: CoursedetailsWidget(
-              coursesRef: params.getParam('coursesRef',
-                  ParamType.DocumentReference, false, ['courses']),
+              course: params.getParam<CoursesRow>(
+                'course',
+                ParamType.SupabaseRow,
+              ),
+              orders: params.getParam<OrdersRow>(
+                'orders',
+                ParamType.SupabaseRow,
+              ),
             ),
-          ),
-        ),
-        FFRoute(
-          name: 'lessons',
-          path: '/lessons',
-          builder: (context, params) => LessonsWidget(
-            courseRef: params.getParam(
-                'courseRef', ParamType.DocumentReference, false, ['courses']),
           ),
         ),
         FFRoute(
           name: 'successpayment',
           path: '/successpayment',
           requireAuth: true,
-          builder: (context, params) => const SuccesspaymentWidget(),
+          builder: (context, params) => SuccesspaymentWidget(
+            order: params.getParam<OrdersRow>(
+              'order',
+              ParamType.SupabaseRow,
+            ),
+            course: params.getParam<CoursesRow>(
+              'course',
+              ParamType.SupabaseRow,
+            ),
+          ),
         ),
         FFRoute(
           name: 'orders',
           path: '/orders',
           requireAuth: true,
           builder: (context, params) => params.isEmpty
-              ? const NavBarPage(initialPage: 'orders')
-              : const OrdersWidget(),
+              ? NavBarPage(initialPage: 'orders')
+              : OrdersWidget(),
         ),
         FFRoute(
           name: 'lesson',
@@ -166,25 +152,134 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => NavBarPage(
             initialPage: '',
             page: LessonWidget(
-              courseRef: params.getParam(
-                  'courseRef', ParamType.DocumentReference, false, ['courses']),
-              orderRef: params.getParam(
-                  'orderRef', ParamType.DocumentReference, false, ['orders']),
+              course: params.getParam<CoursesRow>(
+                'course',
+                ParamType.SupabaseRow,
+              ),
+              orders: params.getParam<OrdersRow>(
+                'orders',
+                ParamType.SupabaseRow,
+              ),
             ),
           ),
         ),
         FFRoute(
-          name: 'Auth2',
-          path: '/auth2',
-          builder: (context, params) => const Auth2Widget(),
-        ),
-        FFRoute(
           name: 'completeProfile',
           path: '/completeProfile',
-          builder: (context, params) => const CompleteProfileWidget(),
+          builder: (context, params) => CompleteProfileWidget(),
+        ),
+        FFRoute(
+          name: 'changeVerify',
+          path: '/changeVerify',
+          builder: (context, params) => ChangeVerifyWidget(
+            phone: params.getParam(
+              'phone',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'addCourse',
+          path: '/addCourse',
+          builder: (context, params) => AddCourseWidget(),
+        ),
+        FFRoute(
+          name: 'editCourse',
+          path: '/editCourse',
+          builder: (context, params) => EditCourseWidget(
+            course: params.getParam<CoursesRow>(
+              'course',
+              ParamType.SupabaseRow,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'category',
+          path: '/category',
+          builder: (context, params) => CategoryWidget(
+            category: params.getParam<CategoryRow>(
+              'category',
+              ParamType.SupabaseRow,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'editCatecory',
+          path: '/editCatecory',
+          builder: (context, params) => EditCatecoryWidget(
+            category: params.getParam<CategoryRow>(
+              'category',
+              ParamType.SupabaseRow,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'pay',
+          path: '/pay',
+          builder: (context, params) => PayWidget(),
+        ),
+        FFRoute(
+          name: 'Auth1',
+          path: '/auth1',
+          builder: (context, params) => Auth1Widget(),
+        ),
+        FFRoute(
+          name: 'homePage',
+          path: '/homePage',
+          requireAuth: true,
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'homePage')
+              : HomePageWidget(),
+        ),
+        FFRoute(
+          name: 'teacher',
+          path: '/teacher',
+          builder: (context, params) => NavBarPage(
+            initialPage: '',
+            page: TeacherWidget(
+              teacher: params.getParam<TeachersRow>(
+                'teacher',
+                ParamType.SupabaseRow,
+              ),
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'editTeacher',
+          path: '/editTeacher',
+          builder: (context, params) => EditTeacherWidget(
+            teacher: params.getParam<TeachersRow>(
+              'teacher',
+              ParamType.SupabaseRow,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'addTeacher',
+          path: '/addTeacher',
+          builder: (context, params) => AddTeacherWidget(),
+        ),
+        FFRoute(
+          name: 'students',
+          path: '/students',
+          builder: (context, params) => StudentsWidget(
+            course: params.getParam<CoursesRow>(
+              'course',
+              ParamType.SupabaseRow,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'video2',
+          path: '/video2',
+          builder: (context, params) => Video2Widget(
+            lesson: params.getParam<LessonsRow>(
+              'lesson',
+              ParamType.SupabaseRow,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
-      observers: [routeObserver],
     );
 
 extension NavParamExtensions on Map<String, String?> {
@@ -259,7 +354,7 @@ extension _GoRouterStateExtensions on GoRouterState {
       extra != null ? extra as Map<String, dynamic> : {};
   Map<String, dynamic> get allParams => <String, dynamic>{}
     ..addAll(pathParameters)
-    ..addAll(queryParameters)
+    ..addAll(uri.queryParameters)
     ..addAll(extraMap);
   TransitionInfo get transitionInfo => extraMap.containsKey(kTransitionInfoKey)
       ? extraMap[kTransitionInfoKey] as TransitionInfo
@@ -278,7 +373,7 @@ class FFParameters {
   // present is the special extra parameter reserved for the transition info.
   bool get isEmpty =>
       state.allParams.isEmpty ||
-      (state.extraMap.length == 1 &&
+      (state.allParams.length == 1 &&
           state.extraMap.containsKey(kTransitionInfoKey));
   bool isAsyncParam(MapEntry<String, dynamic> param) =>
       asyncParams.containsKey(param.key) && param.value is String;
@@ -299,10 +394,10 @@ class FFParameters {
 
   dynamic getParam<T>(
     String paramName,
-    ParamType type, [
+    ParamType type, {
     bool isList = false,
     List<String>? collectionNamePath,
-  ]) {
+  }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
     }
@@ -315,8 +410,12 @@ class FFParameters {
       return param;
     }
     // Return serialized value.
-    return deserializeParam<T>(param, type, isList,
-        collectionNamePath: collectionNamePath);
+    return deserializeParam<T>(
+      param,
+      type,
+      isList,
+      collectionNamePath: collectionNamePath,
+    );
   }
 }
 
@@ -348,12 +447,13 @@ class FFRoute {
           }
 
           if (requireAuth && !appStateNotifier.loggedIn) {
-            appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/auth2';
+            appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
+            return '/auth1';
           }
           return null;
         },
         pageBuilder: (context, state) {
+          fixStatusBarOniOS16AndBelow(context);
           final ffParams = FFParameters(state, asyncParams);
           final page = ffParams.hasFutures
               ? FutureBuilder(
@@ -365,13 +465,17 @@ class FFRoute {
               ? isWeb
                   ? Container()
                   : Container(
-                      color: Colors.transparent,
-                      child: Image.asset(
-                        'assets/images/splash.png',
-                        fit: BoxFit.cover,
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/Blue_and_Yellow_Elegant_Modern_Class_Academy_Logo.png',
+                          width: MediaQuery.sizeOf(context).width * 1.0,
+                          height: double.infinity,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     )
-              : PushNotificationsHandler(child: page);
+              : page;
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition
@@ -413,7 +517,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {
@@ -424,7 +528,7 @@ class RootPageContext {
   static bool isInactiveRootPage(BuildContext context) {
     final rootPageContext = context.read<RootPageContext?>();
     final isRootPage = rootPageContext?.isRootPage ?? false;
-    final location = GoRouter.of(context).location;
+    final location = GoRouterState.of(context).uri.toString();
     return isRootPage &&
         location != '/' &&
         location != rootPageContext?.errorRoute;
@@ -434,4 +538,14 @@ class RootPageContext {
         value: RootPageContext(true, errorRoute),
         child: child,
       );
+}
+
+extension GoRouterLocationExtension on GoRouter {
+  String getCurrentLocation() {
+    final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
+    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
+        ? lastMatch.matches
+        : routerDelegate.currentConfiguration;
+    return matchList.uri.toString();
+  }
 }

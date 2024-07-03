@@ -10,9 +10,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class UsersRecord extends FirestoreRecord {
   UsersRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -56,11 +56,6 @@ class UsersRecord extends FirestoreRecord {
   int get numOfStudents => _numOfStudents ?? 0;
   bool hasNumOfStudents() => _numOfStudents != null;
 
-  // "rating" field.
-  double? _rating;
-  double get rating => _rating ?? 0.0;
-  bool hasRating() => _rating != null;
-
   // "title" field.
   String? _title;
   String get title => _title ?? '';
@@ -76,6 +71,16 @@ class UsersRecord extends FirestoreRecord {
   List<DocumentReference> get bookmark => _bookmark ?? const [];
   bool hasBookmark() => _bookmark != null;
 
+  // "money" field.
+  double? _money;
+  double get money => _money ?? 0.0;
+  bool hasMoney() => _money != null;
+
+  // "admin" field.
+  bool? _admin;
+  bool get admin => _admin ?? false;
+  bool hasAdmin() => _admin != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -85,10 +90,11 @@ class UsersRecord extends FirestoreRecord {
     _phoneNumber = snapshotData['phone_number'] as String?;
     _numOfCourses = castToType<int>(snapshotData['num_of_courses']);
     _numOfStudents = castToType<int>(snapshotData['num_of_students']);
-    _rating = castToType<double>(snapshotData['rating']);
     _title = snapshotData['title'] as String?;
     _author = snapshotData['author'] as bool?;
     _bookmark = getDataList(snapshotData['bookmark']);
+    _money = castToType<double>(snapshotData['money']);
+    _admin = snapshotData['admin'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -133,9 +139,10 @@ Map<String, dynamic> createUsersRecordData({
   String? phoneNumber,
   int? numOfCourses,
   int? numOfStudents,
-  double? rating,
   String? title,
   bool? author,
+  double? money,
+  bool? admin,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -147,9 +154,10 @@ Map<String, dynamic> createUsersRecordData({
       'phone_number': phoneNumber,
       'num_of_courses': numOfCourses,
       'num_of_students': numOfStudents,
-      'rating': rating,
       'title': title,
       'author': author,
+      'money': money,
+      'admin': admin,
     }.withoutNulls,
   );
 
@@ -170,10 +178,11 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.phoneNumber == e2?.phoneNumber &&
         e1?.numOfCourses == e2?.numOfCourses &&
         e1?.numOfStudents == e2?.numOfStudents &&
-        e1?.rating == e2?.rating &&
         e1?.title == e2?.title &&
         e1?.author == e2?.author &&
-        listEquality.equals(e1?.bookmark, e2?.bookmark);
+        listEquality.equals(e1?.bookmark, e2?.bookmark) &&
+        e1?.money == e2?.money &&
+        e1?.admin == e2?.admin;
   }
 
   @override
@@ -186,10 +195,11 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.phoneNumber,
         e?.numOfCourses,
         e?.numOfStudents,
-        e?.rating,
         e?.title,
         e?.author,
-        e?.bookmark
+        e?.bookmark,
+        e?.money,
+        e?.admin
       ]);
 
   @override

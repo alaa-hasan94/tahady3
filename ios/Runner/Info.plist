@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Tahady</string>
+	<string>منصة التحدي التعليمية</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Tahady</string>
+	<string>Tahady 3</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 
@@ -28,7 +28,7 @@
             <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
-                <string>com.googleusercontent.apps.349812889695-4nak8fofga10hsapr19utnqkjmlfisj6</string>
+                <string>com.googleusercontent.apps.927538831976-m98he4o9dcs8h520932d6l3lc79j48iq</string>
                 
             </array>
         </dict>
@@ -37,7 +37,7 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>tahady.com</string>
+        <string>tahady3.com</string>
         <key>CFBundleURLSchemes</key>
         <array>
         <string>tahady</string>
@@ -58,11 +58,6 @@
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>لغرض تعيين صورة شخصية الحسابك التطبيق بحاجة للوصول الى مكتبة الصور</string>
 
-    <key>UIBackgroundModes</key>
-    <array>
-        <string>fetch</string>
-        <string>remote-notification</string>
-    </array>
 
 
 	<key>UILaunchStoryboardName</key>

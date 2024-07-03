@@ -1,56 +1,49 @@
 {
   "project_info": {
-    "project_number": "349812889695",
-    "project_id": "tahady",
-    "storage_bucket": "tahady.appspot.com"
+    "project_number": "927538831976",
+    "project_id": "tahady2",
+    "storage_bucket": "tahady2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:349812889695:android:995c636dd03d158272e3ea",
+        "mobilesdk_app_id": "1:927538831976:android:756af0f3169756e28491dd",
         "android_client_info": {
           "package_name": "com.iq.tahady"
         }
       },
       "oauth_client": [
         {
-          "client_id": "349812889695-k72kebp8j0q3sqf0g9dn65937ljut8sc.apps.googleusercontent.com",
+          "client_id": "927538831976-amf9kqjbildabgqovii9vagjqu59tg72.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.iq.tahady",
-            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+            "certificate_hash": "33bccc5d074446b1978753116604a8f194143df2"
           }
         },
         {
-          "client_id": "349812889695-vdqrp45a8e1volatd98f5nm8el1lf38s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.iq.tahady",
-            "certificate_hash": "35d173e8b2fceef32ed45217fa6066199c0d9707"
-          }
-        },
-        {
-          "client_id": "349812889695-9jvtj541jtiln8g7s18qi4btvi2r6fov.apps.googleusercontent.com",
+          "client_id": "927538831976-6pebe9ge497mnmqke529m2erhh49les4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB3eGjfEMk5nMDqEscbdNsN-GXLOK8GkVo"
+          "current_key": "AIzaSyDvLd-UqUXXaCSB87XWnyD24NSSdoE1_k0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "349812889695-9jvtj541jtiln8g7s18qi4btvi2r6fov.apps.googleusercontent.com",
+              "client_id": "927538831976-1q71030mbqehsfmc7vj7c3t09i1d8392.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "349812889695-4nak8fofga10hsapr19utnqkjmlfisj6.apps.googleusercontent.com",
+              "client_id": "927538831976-m98he4o9dcs8h520932d6l3lc79j48iq.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.iq.tahady"
+                "bundle_id": "com.iq.tahady",
+                "app_store_id": "6477391090"
               }
             }
           ]

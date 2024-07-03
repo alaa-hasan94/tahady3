@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import '/backend/backend.dart';
+import 'backend/api_requests/api_manager.dart';
+import 'backend/supabase/supabase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
@@ -49,17 +52,17 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToCart(DocumentReference value) {
-    _cart.add(value);
+    cart.add(value);
     prefs.setStringList('ff_cart', _cart.map((x) => x.path).toList());
   }
 
   void removeFromCart(DocumentReference value) {
-    _cart.remove(value);
+    cart.remove(value);
     prefs.setStringList('ff_cart', _cart.map((x) => x.path).toList());
   }
 
   void removeAtIndexFromCart(int index) {
-    _cart.removeAt(index);
+    cart.removeAt(index);
     prefs.setStringList('ff_cart', _cart.map((x) => x.path).toList());
   }
 
@@ -67,12 +70,12 @@ class FFAppState extends ChangeNotifier {
     int index,
     DocumentReference Function(DocumentReference) updateFn,
   ) {
-    _cart[index] = updateFn(_cart[index]);
+    cart[index] = updateFn(_cart[index]);
     prefs.setStringList('ff_cart', _cart.map((x) => x.path).toList());
   }
 
   void insertAtIndexInCart(int index, DocumentReference value) {
-    _cart.insert(index, value);
+    cart.insert(index, value);
     prefs.setStringList('ff_cart', _cart.map((x) => x.path).toList());
   }
 
@@ -91,19 +94,19 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToSaveforlater(DocumentReference value) {
-    _saveforlater.add(value);
+    saveforlater.add(value);
     prefs.setStringList(
         'ff_saveforlater', _saveforlater.map((x) => x.path).toList());
   }
 
   void removeFromSaveforlater(DocumentReference value) {
-    _saveforlater.remove(value);
+    saveforlater.remove(value);
     prefs.setStringList(
         'ff_saveforlater', _saveforlater.map((x) => x.path).toList());
   }
 
   void removeAtIndexFromSaveforlater(int index) {
-    _saveforlater.removeAt(index);
+    saveforlater.removeAt(index);
     prefs.setStringList(
         'ff_saveforlater', _saveforlater.map((x) => x.path).toList());
   }
@@ -112,13 +115,13 @@ class FFAppState extends ChangeNotifier {
     int index,
     DocumentReference Function(DocumentReference) updateFn,
   ) {
-    _saveforlater[index] = updateFn(_saveforlater[index]);
+    saveforlater[index] = updateFn(_saveforlater[index]);
     prefs.setStringList(
         'ff_saveforlater', _saveforlater.map((x) => x.path).toList());
   }
 
   void insertAtIndexInSaveforlater(int index, DocumentReference value) {
-    _saveforlater.insert(index, value);
+    saveforlater.insert(index, value);
     prefs.setStringList(
         'ff_saveforlater', _saveforlater.map((x) => x.path).toList());
   }
@@ -154,26 +157,32 @@ class FFAppState extends ChangeNotifier {
   }
 
   void addToEmptyLesssons(DocumentReference value) {
-    _emptyLesssons.add(value);
+    emptyLesssons.add(value);
   }
 
   void removeFromEmptyLesssons(DocumentReference value) {
-    _emptyLesssons.remove(value);
+    emptyLesssons.remove(value);
   }
 
   void removeAtIndexFromEmptyLesssons(int index) {
-    _emptyLesssons.removeAt(index);
+    emptyLesssons.removeAt(index);
   }
 
   void updateEmptyLesssonsAtIndex(
     int index,
     DocumentReference Function(DocumentReference) updateFn,
   ) {
-    _emptyLesssons[index] = updateFn(_emptyLesssons[index]);
+    emptyLesssons[index] = updateFn(_emptyLesssons[index]);
   }
 
   void insertAtIndexInEmptyLesssons(int index, DocumentReference value) {
-    _emptyLesssons.insert(index, value);
+    emptyLesssons.insert(index, value);
+  }
+
+  bool _updatepassword = false;
+  bool get updatepassword => _updatepassword;
+  set updatepassword(bool value) {
+    _updatepassword = value;
   }
 }
 

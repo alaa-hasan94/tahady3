@@ -6,12 +6,13 @@ import '/backend/schema/util/firestore_util.dart';
 import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
 class CategoryRecord extends FirestoreRecord {
   CategoryRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -25,9 +26,15 @@ class CategoryRecord extends FirestoreRecord {
   String get categoryId => _categoryId ?? '';
   bool hasCategoryId() => _categoryId != null;
 
+  // "image" field.
+  String? _image;
+  String get image => _image ?? '';
+  bool hasImage() => _image != null;
+
   void _initializeFields() {
     _categoryName = snapshotData['categoryName'] as String?;
     _categoryId = snapshotData['categoryId'] as String?;
+    _image = snapshotData['image'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -67,11 +74,13 @@ class CategoryRecord extends FirestoreRecord {
 Map<String, dynamic> createCategoryRecordData({
   String? categoryName,
   String? categoryId,
+  String? image,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'categoryName': categoryName,
       'categoryId': categoryId,
+      'image': image,
     }.withoutNulls,
   );
 
@@ -84,12 +93,13 @@ class CategoryRecordDocumentEquality implements Equality<CategoryRecord> {
   @override
   bool equals(CategoryRecord? e1, CategoryRecord? e2) {
     return e1?.categoryName == e2?.categoryName &&
-        e1?.categoryId == e2?.categoryId;
+        e1?.categoryId == e2?.categoryId &&
+        e1?.image == e2?.image;
   }
 
   @override
   int hash(CategoryRecord? e) =>
-      const ListEquality().hash([e?.categoryName, e?.categoryId]);
+      const ListEquality().hash([e?.categoryName, e?.categoryId, e?.image]);
 
   @override
   bool isValidKey(Object? o) => o is CategoryRecord;

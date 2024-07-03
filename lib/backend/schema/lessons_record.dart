@@ -10,9 +10,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class LessonsRecord extends FirestoreRecord {
   LessonsRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -41,12 +41,18 @@ class LessonsRecord extends FirestoreRecord {
   int get lessonNumber => _lessonNumber ?? 0;
   bool hasLessonNumber() => _lessonNumber != null;
 
+  // "youtube" field.
+  String? _youtube;
+  String get youtube => _youtube ?? '';
+  bool hasYoutube() => _youtube != null;
+
   void _initializeFields() {
     _name = snapshotData['name'] as String?;
     _description = snapshotData['description'] as String?;
     _vedioUrl = snapshotData['vedioUrl'] as String?;
     _courseRef = snapshotData['courseRef'] as DocumentReference?;
     _lessonNumber = castToType<int>(snapshotData['lessonNumber']);
+    _youtube = snapshotData['youtube'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -89,6 +95,7 @@ Map<String, dynamic> createLessonsRecordData({
   String? vedioUrl,
   DocumentReference? courseRef,
   int? lessonNumber,
+  String? youtube,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -97,6 +104,7 @@ Map<String, dynamic> createLessonsRecordData({
       'vedioUrl': vedioUrl,
       'courseRef': courseRef,
       'lessonNumber': lessonNumber,
+      'youtube': youtube,
     }.withoutNulls,
   );
 
@@ -112,12 +120,19 @@ class LessonsRecordDocumentEquality implements Equality<LessonsRecord> {
         e1?.description == e2?.description &&
         e1?.vedioUrl == e2?.vedioUrl &&
         e1?.courseRef == e2?.courseRef &&
-        e1?.lessonNumber == e2?.lessonNumber;
+        e1?.lessonNumber == e2?.lessonNumber &&
+        e1?.youtube == e2?.youtube;
   }
 
   @override
-  int hash(LessonsRecord? e) => const ListEquality().hash(
-      [e?.name, e?.description, e?.vedioUrl, e?.courseRef, e?.lessonNumber]);
+  int hash(LessonsRecord? e) => const ListEquality().hash([
+        e?.name,
+        e?.description,
+        e?.vedioUrl,
+        e?.courseRef,
+        e?.lessonNumber,
+        e?.youtube
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is LessonsRecord;

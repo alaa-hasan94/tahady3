@@ -10,22 +10,11 @@ import 'place.dart';
 import 'uploaded_file.dart';
 import '/backend/backend.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '/auth/firebase_auth/auth_util.dart';
-
-double negativePrice(double price) {
-  return price * -1;
-}
-
-double stripeTotal(double cartSum) {
-  return cartSum * 100;
-}
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
 
 int addOne(int value) {
   return value + 1;
-}
-
-bool nullHandler(bool? arg) {
-  return arg ?? false;
 }
 
 double percentageOf1(
@@ -43,12 +32,37 @@ String? percentageOf100(
   return '$result%';
 }
 
-String listToSring(List<String> inputList) {
-  return inputList.join(" ");
+String? phoneNumber(String? number) {
+  if (number != null && number.startsWith('0')) {
+    number = number.substring(1);
+  }
+
+  return number != null ? "+964$number" : null;
 }
 
-double convertToDollar(double price) {
-  double convertedPrice = price / 1.36;
-  double roundedPrice = double.parse(convertedPrice.toStringAsFixed(2));
-  return roundedPrice;
+double? minus(
+  double first,
+  double second,
+) {
+  return first - second;
+}
+
+double incrementMoney(
+  double money,
+  double value,
+) {
+  // increment money of the value
+  return money + value;
+}
+
+String? add964(String? number) {
+  if (number != null && number.startsWith('0')) {
+    number = number.substring(1);
+  }
+
+  return number != null ? "964$number" : null;
+}
+
+double height(double scwidth) {
+  return scwidth * 0.57;
 }

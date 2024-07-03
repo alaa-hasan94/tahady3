@@ -9,17 +9,26 @@ enum AnimationTrigger {
 class AnimationInfo {
   AnimationInfo({
     required this.trigger,
-    required this.effects,
+    required this.effectsBuilder,
     this.loop = false,
     this.reverse = false,
     this.applyInitialState = true,
   });
   final AnimationTrigger trigger;
-  final List<Effect<dynamic>> effects;
+  final List<Effect> Function()? effectsBuilder;
   final bool applyInitialState;
   final bool loop;
   final bool reverse;
   late AnimationController controller;
+
+  List<Effect>? _effects;
+  List<Effect> get effects => _effects ??= effectsBuilder!();
+
+  void maybeUpdateEffects(List<Effect>? updatedEffects) {
+    if (updatedEffects != null) {
+      _effects = updatedEffects;
+    }
+  }
 }
 
 void createAnimation(AnimationInfo animation, TickerProvider vsync) {
@@ -28,13 +37,16 @@ void createAnimation(AnimationInfo animation, TickerProvider vsync) {
 }
 
 void setupAnimations(Iterable<AnimationInfo> animations, TickerProvider vsync) {
-  for (var animation in animations) {
-    createAnimation(animation, vsync);
-  }
+  animations.forEach((animation) => createAnimation(animation, vsync));
 }
 
 extension AnimatedWidgetExtension on Widget {
-  Widget animateOnPageLoad(AnimationInfo animationInfo) => Animate(
+  Widget animateOnPageLoad(
+    AnimationInfo animationInfo, {
+    List<Effect>? effects,
+  }) {
+    animationInfo.maybeUpdateEffects(effects);
+    return Animate(
       effects: animationInfo.effects,
       child: this,
       onPlay: (controller) => animationInfo.loop
@@ -42,29 +54,37 @@ extension AnimatedWidgetExtension on Widget {
           : null,
       onComplete: (controller) => !animationInfo.loop && animationInfo.reverse
           ? controller.reverse()
-          : null);
+          : null,
+    );
+  }
 
   Widget animateOnActionTrigger(
     AnimationInfo animationInfo, {
+    List<Effect>? effects,
     bool hasBeenTriggered = false,
-  }) =>
-      hasBeenTriggered || animationInfo.applyInitialState
-          ? Animate(
-              controller: animationInfo.controller,
-              autoPlay: false,
-              effects: animationInfo.effects,
-              child: this)
-          : this;
+  }) {
+    animationInfo.maybeUpdateEffects(effects);
+    return hasBeenTriggered || animationInfo.applyInitialState
+        ? Animate(
+            controller: animationInfo.controller,
+            autoPlay: false,
+            effects: animationInfo.effects,
+            child: this)
+        : this;
+  }
 }
 
 class TiltEffect extends Effect<Offset> {
   const TiltEffect({
-    super.delay,
-    super.duration,
-    super.curve,
+    Duration? delay,
+    Duration? duration,
+    Curve? curve,
     Offset? begin,
     Offset? end,
   }) : super(
+          delay: delay,
+          duration: duration,
+          curve: curve,
           begin: begin ?? const Offset(0.0, 0.0),
           end: end ?? const Offset(0.0, 0.0),
         );
