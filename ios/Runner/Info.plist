@@ -84,6 +84,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+<key>WebKitAllowsInlineMediaPlayback</key>
+<true/>
+<key>AllowsInlineMediaPlayback</key>
+<true/>
 
 </dict>
 </plist>
